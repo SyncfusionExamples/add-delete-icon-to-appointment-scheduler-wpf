@@ -12,14 +12,14 @@ using System.Windows.Controls;
 using System.Windows.Media;
 namespace WpfScheduler
 {
-    public class ScheduleBehavior : TargetedTriggerAction<Button>
+    public class ScheduleBehavior : TargetedTriggerAction<Image>
     {
 
-        Button button;
+        Image image;
         protected override void Invoke(object parameter)
         {
-            button = this.AssociatedObject as Button;
-            button.PreviewMouseDown += Button_PreviewMouseDown;
+            image = this.AssociatedObject as Image;
+            image.PreviewMouseDown += Button_PreviewMouseDown;
         }
 
         private void Button_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -36,8 +36,8 @@ namespace WpfScheduler
         protected override void OnDetaching()
         {
             base.OnDetaching();
-            button.PreviewMouseDown -= Button_PreviewMouseDown;
-            button = null;
+            image.PreviewMouseDown -= Button_PreviewMouseDown;
+            image = null;
         }
     }
 }

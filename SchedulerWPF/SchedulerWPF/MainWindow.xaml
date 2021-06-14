@@ -29,30 +29,30 @@
 
     <Grid>
         <Grid.Resources>
-<DataTemplate x:Key="appointmentTemplate">
-    <Grid Background="{Binding Background}" HorizontalAlignment="Stretch">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="0.5*"/>
-            <RowDefinition Height="0.5*"/>
-        </Grid.RowDefinitions>
-        <StackPanel HorizontalAlignment="Stretch">
-            <Button x:Name="button" Grid.Row="0" Background="{Binding Background}" HorizontalContentAlignment="Stretch">
-                <Image x:Name="Image" 
+            <DataTemplate x:Key="appointmentTemplate">
+                <Grid Background="{Binding Background}" HorizontalAlignment="Stretch">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.5*"/>
+                        <RowDefinition Height="0.5*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel HorizontalAlignment="Stretch">
+                        <Button x:Name="button" Grid.Row="0" Style="{StaticResource ButtonStyle1}" Background="{Binding Background}"  HorizontalContentAlignment="Stretch">
+                            <Image x:Name="Image" 
                        HorizontalAlignment="Right"
         VerticalAlignment="Top"
         Height="30"
         Width="15"
         Margin="5,0,0,0"
         Source="close-window.png">
-                </Image>
-                <interactivity:Interaction.Triggers>
-                    <interactivity:EventTrigger EventName="Loaded">
-                        <local:ScheduleBehavior TargetObject="{Binding ElementName=Schedule}"/>
-                    </interactivity:EventTrigger>
-                </interactivity:Interaction.Triggers>
-            </Button>
-        </StackPanel>
-        <TextBlock Margin="5" Grid.Row="1"
+                                <interactivity:Interaction.Triggers>
+                                    <interactivity:EventTrigger EventName="Loaded">
+                                        <local:ScheduleBehavior TargetObject="{Binding ElementName=Schedule}"/>
+                                    </interactivity:EventTrigger>
+                                </interactivity:Interaction.Triggers>
+                            </Image>
+                        </Button>
+                    </StackPanel>
+                    <TextBlock Margin="5" Grid.Row="1"
                 VerticalAlignment="Center"
                 Text="{Binding EventName}" 
                 TextTrimming="CharacterEllipsis"
@@ -60,38 +60,40 @@
                 TextAlignment="Left"
                 FontWeight="Bold"/>
 
-    </Grid>
-</DataTemplate>
+                </Grid>
+            </DataTemplate>
         </Grid.Resources>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition  Width="Auto"/>
         </Grid.ColumnDefinitions>
-<syncfusion:SfScheduler x:Name="Schedule"
+        <syncfusion:SfScheduler x:Name="Schedule"
                     ViewType="{Binding ElementName=viewTypeComboBox, Path=SelectedValue}" 
                     ItemsSource="{Binding Appointments}">
 
-    <syncfusion:SfScheduler.DaysViewSettings>
-        <syncfusion:DaysViewSettings AppointmentTemplate="{StaticResource appointmentTemplate}"/>
-    </syncfusion:SfScheduler.DaysViewSettings>
+            <syncfusion:SfScheduler.DaysViewSettings>
+                <syncfusion:DaysViewSettings AppointmentTemplate="{StaticResource appointmentTemplate}"/>
+            </syncfusion:SfScheduler.DaysViewSettings>
 
-    <syncfusion:SfScheduler.TimelineViewSettings>
-        <syncfusion:TimelineViewSettings AppointmentTemplate="{StaticResource appointmentTemplate}"/>
-    </syncfusion:SfScheduler.TimelineViewSettings>
+            <syncfusion:SfScheduler.TimelineViewSettings>
+                <syncfusion:TimelineViewSettings AppointmentTemplate="{StaticResource appointmentTemplate}"/>
+            </syncfusion:SfScheduler.TimelineViewSettings>
 
-    <syncfusion:SfScheduler.AppointmentMapping>
-        <syncfusion:AppointmentMapping StartTime="From"
+            <syncfusion:SfScheduler.AppointmentMapping>
+                <syncfusion:AppointmentMapping StartTime="From"
                                     EndTime="To"
                                     Subject="EventName"
                                     AppointmentBackground="Background"
                                     IsAllDay="IsAllDay"/>
-    </syncfusion:SfScheduler.AppointmentMapping>
-</syncfusion:SfScheduler>
+            </syncfusion:SfScheduler.AppointmentMapping>
+        </syncfusion:SfScheduler>
         <StackPanel Grid.Column="1"
         HorizontalAlignment="Right"
         VerticalAlignment="Top">
-            <ComboBox x:Name="viewTypeComboBox" ItemsSource="{Binding Source={StaticResource schedulerViewTypes}}"
-                                SelectedIndex="2"  Width="100"/>
+            <ComboBox x:Name="viewTypeComboBox" 
+                      ItemsSource="{Binding Source={StaticResource schedulerViewTypes}}"          
+                      SelectedIndex="2"  
+                      Width="100"/>
         </StackPanel>
 
     </Grid>
