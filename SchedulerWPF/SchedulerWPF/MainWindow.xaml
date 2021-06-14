@@ -1,0 +1,98 @@
+﻿<Window x:Class="WpfScheduler.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
+        xmlns:local="clr-namespace:WpfScheduler"
+        xmlns:skinmanager ="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF"
+        skinmanager:SfSkinManager.VisualStyle="MaterialLight"
+         mc:Ignorable="d"
+         xmlns:interactivity="http://schemas.microsoft.com/xaml/behaviors"
+        WindowStartupLocation="CenterScreen" Height="600" Width="950" >
+
+    <Window.DataContext>
+        <local:SchedulerViewModel/>
+    </Window.DataContext>
+
+    <Window.Resources>
+        <ObjectDataProvider x:Key="schedulerViewTypes" MethodName="GetValues"
+                        ObjectType="{x:Type system:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type  Type="{x:Type syncfusion:SchedulerViewType}"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+
+
+    </Window.Resources>
+
+    <Grid>
+        <Grid.Resources>
+<DataTemplate x:Key="appointmentTemplate">
+    <Grid Background="{Binding Background}" HorizontalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="0.5*"/>
+        </Grid.RowDefinitions>
+        <StackPanel HorizontalAlignment="Stretch">
+            <Button x:Name="button" Grid.Row="0" Background="{Binding Background}" HorizontalContentAlignment="Stretch">
+                <Image x:Name="Image" 
+                       HorizontalAlignment="Right"
+        VerticalAlignment="Top"
+        Height="30"
+        Width="15"
+        Margin="5,0,0,0"
+        Source="close-window.png">
+                </Image>
+                <interactivity:Interaction.Triggers>
+                    <interactivity:EventTrigger EventName="Loaded">
+                        <local:ScheduleBehavior TargetObject="{Binding ElementName=Schedule}"/>
+                    </interactivity:EventTrigger>
+                </interactivity:Interaction.Triggers>
+            </Button>
+        </StackPanel>
+        <TextBlock Margin="5" Grid.Row="1"
+                VerticalAlignment="Center"
+                Text="{Binding EventName}" 
+                TextTrimming="CharacterEllipsis"
+                TextWrapping="Wrap"
+                TextAlignment="Left"
+                FontWeight="Bold"/>
+
+    </Grid>
+</DataTemplate>
+        </Grid.Resources>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition  Width="Auto"/>
+        </Grid.ColumnDefinitions>
+<syncfusion:SfScheduler x:Name="Schedule"
+                    ViewType="{Binding ElementName=viewTypeComboBox, Path=SelectedValue}" 
+                    ItemsSource="{Binding Appointments}">
+
+    <syncfusion:SfScheduler.DaysViewSettings>
+        <syncfusion:DaysViewSettings AppointmentTemplate="{StaticResource appointmentTemplate}"/>
+    </syncfusion:SfScheduler.DaysViewSettings>
+
+    <syncfusion:SfScheduler.TimelineViewSettings>
+        <syncfusion:TimelineViewSettings AppointmentTemplate="{StaticResource appointmentTemplate}"/>
+    </syncfusion:SfScheduler.TimelineViewSettings>
+
+    <syncfusion:SfScheduler.AppointmentMapping>
+        <syncfusion:AppointmentMapping StartTime="From"
+                                    EndTime="To"
+                                    Subject="EventName"
+                                    AppointmentBackground="Background"
+                                    IsAllDay="IsAllDay"/>
+    </syncfusion:SfScheduler.AppointmentMapping>
+</syncfusion:SfScheduler>
+        <StackPanel Grid.Column="1"
+        HorizontalAlignment="Right"
+        VerticalAlignment="Top">
+            <ComboBox x:Name="viewTypeComboBox" ItemsSource="{Binding Source={StaticResource schedulerViewTypes}}"
+                                SelectedIndex="2"  Width="100"/>
+        </StackPanel>
+
+    </Grid>
+</Window>
